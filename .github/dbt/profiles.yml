@@ -1,0 +1,11 @@
+dbt_event_patterns:
+  target: ci
+  outputs:
+    ci:
+      type: bigquery
+      method: service-account
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+      project: bigquery-sandbox-cpvuft6h
+      dataset: tmp
+      location: EU
+      threads: 1

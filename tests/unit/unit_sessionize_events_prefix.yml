@@ -1,0 +1,13 @@
+unit_tests:
+  - name: unit_macro_sessionize_events_prefix
+    description: "sessionize_events supports prefixed output columns"
+    model: macro_sessionize_events_prefix
+    given:
+      - input: ref('macro_sessionize_events_data')
+        rows:
+          - { event_id: 'a', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:00', source_row_number: 1, event_at: '2026-01-01 00:00:00' }
+          - { event_id: 'c', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:04', source_row_number: 3, event_at: '2026-01-01 00:00:04' }
+    expect:
+      rows:
+        - { event_id: 'a', query_burst_session_start_ts: '2026-01-01 00:00:00', query_burst_session_end_ts: '2026-01-01 00:00:04', query_burst_session_event_count: 2, query_burst_session_event_seq_num_asc: 1, query_burst_session_event_seq_num_desc: 2, query_burst_session_id_length: 64 }
+        - { event_id: 'c', query_burst_session_start_ts: '2026-01-01 00:00:00', query_burst_session_end_ts: '2026-01-01 00:00:04', query_burst_session_event_count: 2, query_burst_session_event_seq_num_asc: 2, query_burst_session_event_seq_num_desc: 1, query_burst_session_id_length: 64 }

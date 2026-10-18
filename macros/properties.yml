@@ -1,0 +1,39 @@
+version: 2
+
+macros:
+  - name: sessionize_events
+    description: '{{ doc("sessionize_events") }}'
+    arguments:
+      - name: relation
+        type: relation
+        description: Source relation or CTE to annotate.
+      - name: event_ts
+        type: string
+        description: Non-null BigQuery TIMESTAMP expression.
+      - name: partition_by
+        type: list[string]
+        description: Non-empty list of expressions identifying independent event streams.
+      - name: inactivity_seconds
+        type: integer
+        description: Non-negative inactivity threshold in seconds.
+      - name: tie_breaker
+        type: list[string]
+        description: Non-empty deterministic ordering expressions for equal timestamps.
+      - name: scope_by
+        type: list[string]
+        description: Optional expressions added to the effective partition.
+      - name: boundary_key
+        type: optional[string]
+        description: Optional contiguous bucket expression added to the effective partition.
+      - name: output_prefix
+        type: string
+        description: Optional prefix for the six appended output columns.
+      - name: indent
+        type: integer
+        description: Indent the rendered SQL when embedding in larger queries.
+
+  - name: bigquery__sessionize_events
+    description: '{{ doc("bigquery__sessionize_events") }}'
+
+  - name: default__sessionize_events
+    description: '{{ doc("default__sessionize_events") }}'

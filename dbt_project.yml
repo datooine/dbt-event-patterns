@@ -1,0 +1,16 @@
+name: 'dbt_event_patterns'
+version: '0.1.0'
+require-dbt-version: ['>=1.6.0', '<3.0.0']
+
+profile: 'dbt_event_patterns'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"

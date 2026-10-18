@@ -1,0 +1,19 @@
+unit_tests:
+  - name: unit_macro_sessionize_events_unscoped
+    description: "sessionize_events shares a stream when scope_by is omitted"
+    model: macro_sessionize_events_unscoped
+    given:
+      - input: ref('macro_sessionize_events_data')
+        rows:
+          - { event_id: 'a', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:00', source_row_number: 1, event_at: '2026-01-01 00:00:00' }
+          - { event_id: 'b', user_id: 'u1', event_type: 'B', order_id: 'o1', ingested_at: '2026-01-01 00:00:02', source_row_number: 2, event_at: '2026-01-01 00:00:02' }
+          - { event_id: 'c', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:04', source_row_number: 3, event_at: '2026-01-01 00:00:04' }
+          - { event_id: 'd', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:09', source_row_number: 4, event_at: '2026-01-01 00:00:09' }
+          - { event_id: 'e', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:14.001', source_row_number: 5, event_at: '2026-01-01 00:00:14.001' }
+    expect:
+      rows:
+        - { event_id: 'a', user_id: 'u1', session_start_ts: '2026-01-01 00:00:00', session_end_ts: '2026-01-01 00:00:09', session_event_count: 4, session_event_seq_num_asc: 1, session_event_seq_num_desc: 4, session_id_length: 64 }
+        - { event_id: 'b', user_id: 'u1', session_start_ts: '2026-01-01 00:00:00', session_end_ts: '2026-01-01 00:00:09', session_event_count: 4, session_event_seq_num_asc: 2, session_event_seq_num_desc: 3, session_id_length: 64 }
+        - { event_id: 'c', user_id: 'u1', session_start_ts: '2026-01-01 00:00:00', session_end_ts: '2026-01-01 00:00:09', session_event_count: 4, session_event_seq_num_asc: 3, session_event_seq_num_desc: 2, session_id_length: 64 }
+        - { event_id: 'd', user_id: 'u1', session_start_ts: '2026-01-01 00:00:00', session_end_ts: '2026-01-01 00:00:09', session_event_count: 4, session_event_seq_num_asc: 4, session_event_seq_num_desc: 1, session_id_length: 64 }
+        - { event_id: 'e', user_id: 'u1', session_start_ts: '2026-01-01 00:00:14.001', session_end_ts: '2026-01-01 00:00:14.001', session_event_count: 1, session_event_seq_num_asc: 1, session_event_seq_num_desc: 1, session_id_length: 64 }
