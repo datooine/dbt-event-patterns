@@ -1,0 +1,25 @@
+[project]
+name = "dbt-event-patterns"
+version = "0.1.0"
+description = "Reusable event-pattern macros for dbt"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "dbt>=2.0.6,<3.0.0",
+]
+dev-v1 = [
+    "dbt-bigquery>=1.10.2,<2.0.0",
+    "dbt-core>=1.10.11,<2.0.0",
+]
+dev-v2 = [
+    "dbt>=2.0.6,<3.0.0",
+]
+
+[tool.uv]
+conflicts = [
+    [{ extra = "dev" }, { extra = "dev-v1" }],
+    [{ extra = "dev-v1" }, { extra = "dev-v2" }],
+]

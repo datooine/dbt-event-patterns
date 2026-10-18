@@ -1,0 +1,17 @@
+unit_tests:
+  - name: unit_macro_sessionize_events_reordered_ids
+    description: "session IDs and sequence numbers are stable under input row reordering"
+    model: macro_sessionize_events_reordered_ids
+    given:
+      - input: ref('macro_sessionize_events_data')
+        rows:
+          - { event_id: 'a', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:00', source_row_number: 1, event_at: '2026-01-01 00:00:00' }
+          - { event_id: 'b', user_id: 'u1', event_type: 'B', order_id: 'o1', ingested_at: '2026-01-01 00:00:02', source_row_number: 2, event_at: '2026-01-01 00:00:02' }
+          - { event_id: 'c', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:04', source_row_number: 3, event_at: '2026-01-01 00:00:04' }
+          - { event_id: 'd', user_id: 'u1', event_type: 'A', order_id: 'o1', ingested_at: '2026-01-01 00:00:09', source_row_number: 4, event_at: '2026-01-01 00:00:09' }
+    expect:
+      rows:
+        - { event_id: 'a', same_session_id: true, same_asc: true }
+        - { event_id: 'b', same_session_id: true, same_asc: true }
+        - { event_id: 'c', same_session_id: true, same_asc: true }
+        - { event_id: 'd', same_session_id: true, same_asc: true }

@@ -1,0 +1,7 @@
+target/
+logs/
+dbt_packages/
+.github/dbt/.user.yml
+/.user.yml
+dbt_internal_packages/
+.venv/

@@ -1,0 +1,20 @@
+# Placeholder profiles for parsing and rendering SQL without warehouse access.
+dbt_event_patterns:
+  target: bigquery
+  outputs:
+    bigquery:
+      type: bigquery
+      method: oauth
+      project: dbt-event-patterns-compatibility
+      dataset: dbt_event_patterns
+      location: EU
+      threads: 1
+    snowflake:
+      type: snowflake
+      account: placeholder
+      user: placeholder
+      password: placeholder
+      database: placeholder
+      schema: placeholder
+      warehouse: placeholder
+      threads: 1
